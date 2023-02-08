@@ -13,10 +13,6 @@ class ApiHelper {
     private val BASE_URL = "https://openapi.naver.com"
 
     fun getInstance(): Retrofit {
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }

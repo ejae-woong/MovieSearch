@@ -3,8 +3,6 @@ package com.example.moviesearch.repository
 import android.util.Log
 import com.example.moviesearch.network.ApiHelper
 import com.example.moviesearch.network.NaverAPI
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.flow
 
 class MovieRepository {

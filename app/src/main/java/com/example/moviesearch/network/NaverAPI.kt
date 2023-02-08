@@ -1,7 +1,6 @@
 package com.example.moviesearch.network
 
 import com.example.moviesearch.model.MovieResponse
-//import com.example.moviesearch.model.MovieList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header

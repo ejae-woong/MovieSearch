@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.example.moviesearch.databinding.ActivityMainBinding
-import com.example.moviesearch.network.ApiHelper
-import com.example.moviesearch.network.NaverAPI
 import com.example.moviesearch.viewmodel.MovieSearchViewModel
 
 class MainActivity : AppCompatActivity() {
