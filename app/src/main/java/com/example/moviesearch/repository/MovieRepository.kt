@@ -2,6 +2,8 @@ package com.example.moviesearch.repository
 
 import android.util.Log
 import androidx.paging.*
+import com.example.moviesearch.database.RecentKeywordDAO
+import com.example.moviesearch.database.RoomDataBase
 import com.example.moviesearch.model.Movie
 import com.example.moviesearch.model.MovieResponse
 import com.example.moviesearch.network.ApiHelper
@@ -26,6 +28,7 @@ class MovieRepository {
     }
 
     fun requestSearchMovie(keyword: String): Flow<PagingData<Movie>> {
+
         return Pager(config = PagingConfig(
             pageSize = PAGING_SIZE,
             enablePlaceholders = false,

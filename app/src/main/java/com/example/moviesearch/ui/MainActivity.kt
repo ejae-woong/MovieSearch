@@ -1,17 +1,17 @@
 package com.example.moviesearch.ui
 
 import android.app.Application
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviesearch.R
 import com.example.moviesearch.adapter.SearchedMovieAdapter
+import com.example.moviesearch.database.RoomDataBase
 import com.example.moviesearch.databinding.ActivityMainBinding
 import com.example.moviesearch.viewmodel.MovieSearchViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MovieSearchViewModel
     private lateinit var movieAdapter: SearchedMovieAdapter
+    var str: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
             it.lifecycleOwner = this
             it.viewCallBack = viewCallBack
         }
+        RoomDataBase.getInstance(this)
         viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(Application()))[MovieSearchViewModel::class.java]
         setContentView(binding.root)
         subscribeUI()
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        Log.e(TAG, "initView()")
         movieAdapter = SearchedMovieAdapter()
         binding.rvMovie.run {
             layoutManager = LinearLayoutManager(context)
@@ -55,16 +58,23 @@ class MainActivity : AppCompatActivity() {
                 movieAdapter.submitData(it)
             }
         }
-
     }
 
-    fun showRecentSearchFragment() {
-        Toast.makeText(this, "asdasd", LENGTH_SHORT).show()
-        val ft = supportFragmentManager.beginTransaction()
-        ft.run {
-            setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out)
-            add(binding.root.id, RecentSearchedFragment()).addToBackStack(null)
-            commit()
+    fun setStrs(str: String) {
+        this.str = str
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e(TAG, "onResume(), str: $str")
+        str?.let {
+            searchMovie(it)
+        }
+    }
+
+    fun showRecentSearchActivity() {
+        Intent(this, RecentSearchActivity::class.java).run {
+            startActivity(this)
         }
     }
 
@@ -75,7 +85,11 @@ class MainActivity : AppCompatActivity() {
     private val viewCallBack = ViewCallBack { view ->
         when (view.id) {
             R.id.btn_search -> searchMovie(binding.etKeyword.text.toString())
-            R.id.btn_recent -> showRecentSearchFragment()
+            R.id.btn_recent -> showRecentSearchActivity()
         }
     }
+
+//    private val itemClickListener = RecentSearchActivity.ItemClickListener {
+//        viewModel.searchMovie(it.keyword)
+//    }
 }

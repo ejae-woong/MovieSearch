@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.moviesearch.databinding.ItemMovieBinding
 import com.example.moviesearch.model.Movie
+import com.example.moviesearch.model.RecentKeyword
 
 class SearchedMovieAdapter : PagingDataAdapter<Movie, PagingViewHolder>(diffCallback) {
     companion object {
