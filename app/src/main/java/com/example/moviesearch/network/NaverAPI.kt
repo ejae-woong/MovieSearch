@@ -9,10 +9,10 @@ import retrofit2.http.Query
 interface NaverAPI {
     @GET("/v1/search/movie.json")
     suspend fun searchMovie(
-        @Header("X-Naver-Client-Id") clientId: String,
-        @Header("X-Naver-Client-Secret") clientSecret: String,
-        @Query("query") query: String,
+        @Header("X-Naver-Client-Id") clientId: String = "j1kQ7NmRVBDg3Xet69r2",
+        @Header("X-Naver-Client-Secret") clientSecret: String = "MkIdKphTDk",
+        @Query("query") keyword: String,
         @Query("display") display: Int? = null,
         @Query("start") start: Int? = null
-    ): Response<MovieResponse>
+    ): MovieResponse
 }

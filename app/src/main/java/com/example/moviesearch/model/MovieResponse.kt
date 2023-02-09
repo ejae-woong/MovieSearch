@@ -34,7 +34,7 @@ data class Movie(
     @SerializedName("actor")
     val actor: String,
     @SerializedName("userRating")
-    val userRating: Double
+    val userRating: String
 ) {
     override fun toString() =
         "title : $title, " +

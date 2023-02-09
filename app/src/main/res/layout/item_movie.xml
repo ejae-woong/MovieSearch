@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <import type="android.text.TextUtils"/>
+        <variable
+            name="movie"
+            type="com.example.moviesearch.model.Movie" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,6 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_marginStart="12dp"
             app:layout_constraintStart_toEndOf="@id/iv_movie"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,19 +33,38 @@
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:text="제목"
+                android:text="@{movie.title}"
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/tv_release"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:text="출시년도"
+                android:text="@{movie.pubDate}"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:layout_marginVertical="12dp"/>
 
             <TextView
                 android:id="@+id/tv_grade"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:text="평점"
+                android:text="@{movie.userRating}"
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            app:layout_constraintTop_toBottomOf="@id/iv_movie"
+            android:background="@color/cardview_dark_background"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
