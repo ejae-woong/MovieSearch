@@ -48,7 +48,7 @@ class PagingViewHolder(private val binding: ItemMovieBinding) : RecyclerView.Vie
         binding.clRoot.setOnClickListener { showWebBrowser(item.link) }
         Glide.with(binding.root.context)
             .load(item.image)
-            .error(R.drawable.error)
+            .error(R.mipmap.ic_launcher)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(binding.ivMovie)
     }
