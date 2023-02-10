@@ -8,6 +8,7 @@ import com.example.moviesearch.model.Movie
 import com.example.moviesearch.model.MovieResponse
 import com.example.moviesearch.network.ApiHelper
 import com.example.moviesearch.network.NaverAPI
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -31,25 +32,28 @@ class MovieRepository {
 
         return Pager(config = PagingConfig(
             pageSize = PAGING_SIZE,
-            enablePlaceholders = false,
+//            enablePlaceholders = false,
             initialLoadSize = PAGING_SIZE,
-            prefetchDistance = PAGING_SIZE),
+            prefetchDistance = PAGING_SIZE
+        ),
             pagingSourceFactory = { MoviePagingSource(keyword)}
         ).flow
     }
 
     inner class MoviePagingSource(val keyword: String) : PagingSource<Int, Movie>() {
-
+        var count = 1
         override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
             return try {
+                delay(500)
                 val next = params.key ?: 0
-                val sercive = ApiHelper().getInstance().create(NaverAPI::class.java)
-                val response = sercive.searchMovie(keyword = keyword)
-                val isPageEnd = response.movieList.isNullOrEmpty() || response.movieList.size < PAGING_SIZE
+                val service = ApiHelper().getInstance().create(NaverAPI::class.java)
+                val response = service.searchMovie(keyword = keyword, display = PAGING_SIZE, start = count).movieList
+                count += PAGING_SIZE
+                val isAllLoaded = response.size < PAGING_SIZE
                 LoadResult.Page(
-                    data = response.movieList,
+                    data = response,
                     prevKey = if (next == 0) null else next - 1,
-                    nextKey = if (isPageEnd) null else next + (params.loadSize / PAGING_SIZE)
+                    nextKey = if (isAllLoaded) null else next + 1
                 )
             } catch (e: Exception) {
                 LoadResult.Error(e)
@@ -62,6 +66,7 @@ class MovieRepository {
                     ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
             }
         }
+
 
     }
 }

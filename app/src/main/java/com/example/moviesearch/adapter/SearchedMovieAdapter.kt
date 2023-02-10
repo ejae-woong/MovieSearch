@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.moviesearch.R
 import com.example.moviesearch.databinding.ItemMovieBinding
 import com.example.moviesearch.model.Movie
 import com.example.moviesearch.model.RecentKeyword
@@ -47,6 +48,7 @@ class PagingViewHolder(private val binding: ItemMovieBinding) : RecyclerView.Vie
         binding.clRoot.setOnClickListener { showWebBrowser(item.link) }
         Glide.with(binding.root.context)
             .load(item.image)
+            .error(R.drawable.error)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(binding.ivMovie)
     }

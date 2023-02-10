@@ -1,14 +1,14 @@
 package com.example.moviesearch.ui
 
 import android.app.Application
+import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.moviesearch.adapter.RecentKeywordAdapter
-import com.example.moviesearch.adapter.SearchedMovieAdapter
-import com.example.moviesearch.databinding.ActivityMainBinding
 import com.example.moviesearch.databinding.ActivityRecentSearchBinding
 import com.example.moviesearch.model.RecentKeyword
 import com.example.moviesearch.viewmodel.MovieSearchViewModel
@@ -30,12 +30,9 @@ class RecentSearchActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        binding.tvTitle.setOnClickListener {
-            itemClickListener.onClick(RecentKeyword(1, "아이"))
-        }
         searchedMovieAdapter = RecentKeywordAdapter().apply {
             setList(viewModel.getRecentKeyword())
-
+            setItemClickListener(itemClickListener)
         }
         binding.rvRecent.run {
             layoutManager = GridLayoutManager(context, 2)
@@ -47,8 +44,13 @@ class RecentSearchActivity : AppCompatActivity() {
         fun onClick(item: RecentKeyword)
     }
 
-    val itemClickListener = ItemClickListener {
+    private val itemClickListener = ItemClickListener {
+        Log.d(TAG, "onClick($it)")
         finish()
-        MainActivity().setStrs(it.keyword)
+        Intent(this, MainActivity::class.java).run {
+            flags = FLAG_ACTIVITY_CLEAR_TOP
+            putExtra(MainActivity.RECENT_KEYWORD, it.keyword)
+            startActivity(this)
+        }
     }
 }

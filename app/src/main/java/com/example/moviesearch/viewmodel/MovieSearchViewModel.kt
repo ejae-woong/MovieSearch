@@ -17,11 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class MovieSearchViewModel(application: Application): AndroidViewModel(application) {
-
     val roomDao = RoomDataBase.getInstance(application).recentKeywordDAO()
-
-    private val _searchedMovieList: MutableLiveData<ArrayList<Movie>> = MutableLiveData()
-    val searchedMovieList: LiveData<ArrayList<Movie>> get() = _searchedMovieList
 
     fun searchMovie(keyword: String): Flow<PagingData<Movie>> {
         roomDao.insertKeyword(RecentKeyword(keyword = keyword))
@@ -29,7 +25,7 @@ class MovieSearchViewModel(application: Application): AndroidViewModel(applicati
     }
 
     fun getRecentKeyword(): ArrayList<RecentKeyword> {
-        val all = roomDao.getAllKeyword().distinctBy { it.keyword }.sortedBy { it.id }.reversed()
+        val all = roomDao.getAllKeyword().sortedBy { it.id }.reversed().distinctBy { it.keyword }
         val recentList = arrayListOf<RecentKeyword>()
         all.forEachIndexed { index, it ->
             if (index == 10) return recentList

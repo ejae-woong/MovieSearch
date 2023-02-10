@@ -12,7 +12,7 @@ interface NaverAPI {
         @Header("X-Naver-Client-Id") clientId: String = "j1kQ7NmRVBDg3Xet69r2",
         @Header("X-Naver-Client-Secret") clientSecret: String = "MkIdKphTDk",
         @Query("query") keyword: String,
-        @Query("display") display: Int? = null,
-        @Query("start") start: Int? = null
+        @Query("display") display: Int? = 10,
+        @Query("start") start: Int? = 1
     ): MovieResponse
 }
